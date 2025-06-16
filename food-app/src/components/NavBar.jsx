@@ -16,7 +16,7 @@ const NavBar = () => {
               <a className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600' href="#">Contact Us</a>
             </div>
 
-            <div className='space-x-4 flex items-center'>
+            <div className='space-x-6 flex items-center'>
               <i class='bx bx-search text-4xl cursor-pointer'></i>
               <i class='bx bx-cart text-4xl cursor-pointer'></i>
               <button className='bg-lime-600 text-white font-bold rounded-lg p-3 text-xl cursor-pointer hover:bg-lime-800 '>Sign In</button>
