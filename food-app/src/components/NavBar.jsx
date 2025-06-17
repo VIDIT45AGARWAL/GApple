@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NavBar = () => {
+const NavBar = ({setLogin}) => {
   return (
     <>
         <nav>
@@ -19,7 +19,7 @@ const NavBar = () => {
             <div className='space-x-4 sm:space-x-6 flex items-center'>
               <i class='bx bx-search text-3xl sm:text-4xl cursor-pointer'></i>
               <i class='bx bx-cart text-3xl sm:text-4xl cursor-pointer'></i>
-              <button className='bg-lime-600 text-white font-bold rounded-lg p-3 text-lg sm:text-xl cursor-pointer hover:bg-lime-800 '>Sign In</button>
+              <button className='bg-lime-600 text-white font-bold rounded-lg p-3 text-lg sm:text-xl cursor-pointer hover:bg-lime-800 ' onClick={()=>setLogin(true)}>Sign In</button>
             </div>
           </div>
         </nav>
