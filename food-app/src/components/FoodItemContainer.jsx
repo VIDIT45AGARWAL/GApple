@@ -43,9 +43,9 @@ const FoodItemContainer = ({category}) => {
 
   return (
     <>
-        <hr className='border-t-6 border-lime-600 rounded-full border-dashed mx-32 mt-12'/>
-        <h1 className='mx-32 my-6 text-3xl font-bold'>Top dishes near you</h1>
-        <div className='mx-32 flex flex-wrap'>
+        <hr className='border-t-6 border-lime-600 rounded-full border-dashed mx-8 sm:mx-32 mt-12'/>
+        <h1 className='mx-8 sm:mx-32 my-6 text-3xl font-bold'>Top dishes near you</h1>
+        <div className='mx-8 sm:mx-32 flex flex-wrap'>
           {
             category===null?(
               dishes.map((dish)=>{
