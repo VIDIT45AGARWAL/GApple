@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 
-const MenuList = () => {
-
-    const [category, setCategory] = useState(null)
+const MenuList = ({category, setCategory}) => {
 
     const menu_list=[
-        {menu_name: 'Salad', menu_image:'/salad.jpg'},
-        {menu_name: 'Rolls', menu_image:'/rolls.jpg'},
-        {menu_name: 'Pasta', menu_image:'/pasta.jpg'},
-        {menu_name: 'Desserts', menu_image:'/desserts.jpg'},
-        {menu_name: 'Noodles', menu_image: '/noodles.jpg'},
-        {menu_name: 'Pure Veg', menu_image: '/pureVeg.jpeg'},
-        {menu_name: 'Sandwiches', menu_image: '/sandwich.jpg'},
+        {menu_name: 'salad', menu_image:'/menu/salad.jpg'},
+        {menu_name: 'rolls', menu_image:'/menu/rolls.jpg'},
+        {menu_name: 'pasta', menu_image:'/menu/pasta.jpg'},
+        {menu_name: 'desserts', menu_image:'/menu/desserts.jpg'},
+        {menu_name: 'noodles', menu_image: '/menu/noodles.jpg'},
+        {menu_name: 'Pure Veg', menu_image: '/menu/pureVeg.jpeg'},
+        {menu_name: 'sandwiches', menu_image: '/menu/sandwich.jpg'},
     ]
 
   return (
@@ -26,7 +24,7 @@ const MenuList = () => {
         <div className='flex space-x-7 overflow-x-auto w-full max-w-full py-4' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {menu_list.map((menu) => (
                 <div key={menu.id} className='flex-shrink-0 flex flex-col items-center'>
-                    <img src={menu.menu_image} className={`border-2 rounded-full size-60 object-cover cursor-pointer ${menu.menu_name===category?'border-8 border-lime-500':'border-2'}`} alt={menu.menu_name} onClick={()=>{setCategory(menu.menu_name)}}/>
+                    <img src={menu.menu_image} className={`border-2 rounded-full size-60 object-cover cursor-pointer ${menu.menu_name===category?'border-8 border-lime-500':'border-2'}`} alt={menu.menu_name} onClick={()=>{category===menu.menu_name?setCategory(null):setCategory(menu.menu_name)}}/>
                     <h1 className='text-lg font-bold text-center whitespace-nowrap mt-3'>{menu.menu_name}</h1>
                 </div>
             ))}
