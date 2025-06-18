@@ -8,6 +8,7 @@ import MenuBar from './components/MenuBar'
 import Footer from './components/Footer'
 import LoginPopup from './components/LoginPopup'
 import CartItem from './components/cartItem'
+import PlaceOrder from './components/PlaceOrder'
 
 const App = () => {
 
@@ -21,14 +22,23 @@ const App = () => {
       <MenuBar/>
       <Footer/> */}
 
-      <div className='flex flex-col min-h-screen'>
+      {/* <div className='flex flex-col min-h-screen'>
         {login? <LoginPopup setLogin={setLogin}/>:<></>}
         <main className='flex-grow'>
           <NavBar setLogin={setLogin}/>
           <CartItem/>
         </main>
         <Footer/>
-      </div>
+      </div> */}
+
+        <div className='flex flex-col min-h-screen'>
+          {login? <LoginPopup setLogin={setLogin}/>:<></>}
+          <main className='flex-grow'>
+            <NavBar setLogin={setLogin}/>
+            <PlaceOrder/>
+          </main>
+          <Footer/>
+        </div>
     </>
   )
 }
