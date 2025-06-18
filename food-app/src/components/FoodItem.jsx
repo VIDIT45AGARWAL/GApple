@@ -5,6 +5,10 @@ const FoodItem = ({dish}) => {
   const [count, setCount] =useState(0)
   const [isAdded, setIsAdded]=useState(false)
 
+  const imageUrl = dish.image.startsWith('http') 
+    ? dish.image 
+    : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${dish.image}`
+
   return (
     <>
         <div className='flex flex-col w-70 m-4 shadow-2xl rounded-2xl'>
@@ -26,11 +30,11 @@ const FoodItem = ({dish}) => {
                   </div>
                 )
               }
-                <img src={dish.img} className='size-70 rounded-t-2xl'/>
+                <img src={imageUrl} className='size-70 rounded-t-2xl'/>
             </div>
             <div className='rounded-b-2xl p-3 h-30 relative'>
                 <h2 className='font-bold text-2xl'>{dish.name}</h2>
-                <h2 className='font-bold absolute bottom-3 left-4 text-lg text-lime-600'>$12</h2>
+                <h2 className='font-bold absolute bottom-3 left-4 text-lg text-lime-600'>${dish.price.toFixed(2)}</h2>
             </div>
         </div>
     </>

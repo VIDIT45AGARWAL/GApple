@@ -16,11 +16,15 @@ const App = () => {
 
   return (
     <>
-      {/* {login? <LoginPopup setLogin={setLogin}/>:<></>}
-      <NavBar setLogin={setLogin}/>
-      <Hero/>
-      <MenuBar/>
-      <Footer/> */}
+      <div className='flex flex-col min-h-screen'>
+        {login? <LoginPopup setLogin={setLogin}/>:<></>}
+        <main>
+          <NavBar setLogin={setLogin}/>
+          <Hero/>
+          <MenuBar/>
+        </main>
+        <Footer/>
+      </div>
 
       {/* <div className='flex flex-col min-h-screen'>
         {login? <LoginPopup setLogin={setLogin}/>:<></>}
@@ -31,14 +35,14 @@ const App = () => {
         <Footer/>
       </div> */}
 
-        <div className='flex flex-col min-h-screen'>
+        {/* <div className='flex flex-col min-h-screen'>
           {login? <LoginPopup setLogin={setLogin}/>:<></>}
           <main className='flex-grow'>
             <NavBar setLogin={setLogin}/>
             <PlaceOrder/>
           </main>
           <Footer/>
-        </div>
+        </div> */}
     </>
   )
 }

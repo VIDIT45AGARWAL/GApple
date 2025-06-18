@@ -1,45 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FoodItem from './FoodItem'
+import { getFoods } from '../services/Api'
 
 const FoodItemContainer = ({category}) => {
 
-    const dishes =[
-        {menu:'salad', name:'Arugula Salad', img: '/dishes/salad/Arugula-salad.jpg'},
-        {menu:'salad', name:'Beet Salad', img: '/dishes/salad/beet-salad.jpg'},
-        {menu:'salad', name:'Caesar Salad', img: '/dishes/salad/caesar-salad.jpg'},
-        {menu:'salad', name:'Fruit Salad', img: '/dishes/salad/Fruit Salad.webp'},
-        {menu:'salad', name:'Green Salad', img: '/dishes/salad/green-salad.jpg'},
-        {menu:'salad', name:'Italian Chopped Salad', img: '/dishes/salad/italian-chopped-salad.jpg'},
-        {menu:'salad', name:'Simple Green Salad', img: '/dishes/salad/simple-green-salad.jpg'},
-        {menu:'salad', name:'Torellini Salad', img: '/dishes/salad/torellini-salad.jpg'},
+  const [dishes, setDishes] =useState([])
+  const [loading, setLoading]= useState(true)
 
-        {menu:'rolls', name:'Buffalo Chicken Wrap', img: '/dishes/rolls/buffalo-chicken-wrap.avif'},
-        {menu:'rolls', name:'Cabbage Wrapped Brats', img:'/dishes/rolls/cabbage-wrapped-brats.avif'},
-        {menu:'rolls', name:'Chicken Caesar Wraps', img:'/dishes/rolls/chicken-caesar-wraps.avif'},
-        {menu:'rolls', name:'Chicken Quesadilla', img:'/dishes/rolls/chicken-quesadilla.avif'},
-        {menu:'rolls', name:'Chicken Shawarma', img:'/dishes/rolls/chicken-shawarma.avif'},
-        {menu:'rolls', name:'Collard Wrap Burritos', img:'/dishes/rolls/collard-wrap-burritos.avif'},
+  useEffect(()=>{
+    const fetchDishes = async () =>{
+      try{
+        const response= await getFoods(category)
+        setDishes(response.data)
+      } catch (error){
+        console.error('Error fetching dishes', error)
+      } finally{
+        setLoading(false)
+      }
+    }
+    fetchDishes()
+  },[category])
 
-        {menu:'pasta', name:'Angel Hair Pasta', img:'/dishes/pasta/angel-hair-pasta.webp'},
-        {menu:'pasta', name:'Bow Tie Pasta', img:'/dishes/pasta/Bow-tie-pasta.webp'},
-        {menu:'pasta', name:'Bucatini Pasta', img:'/dishes/pasta/Bucatini-pasta.webp'},
-        {menu:'pasta', name:'Ditalini Pasta', img:'/dishes/pasta/Ditalini-pasta.webp'},
+  if (loading){
+    return <div className='mx-8 sm:mx-32 my-6 text-center'>Loading dishes...</div>
+  }
 
-        {menu:'desserts', name:'Blueberry Grunt', img:'/dishes/desserts/blueberry-grunt.jpg'},
-        {menu:'desserts', name:'Caramel Corn', img:'/dishes/desserts/caramel-corn.jpg'},
-        {menu:'desserts', name:'Chocolate Fudge', img:'/dishes/desserts/chocolate-fudge.jpg'},
+    // const dishes =[
+    //     {menu:'salad', name:'Arugula Salad', img: '/dishes/salad/Arugula-salad.jpg'},
+    //     {menu:'salad', name:'Beet Salad', img: '/dishes/salad/beet-salad.jpg'},
+    //     {menu:'salad', name:'Caesar Salad', img: '/dishes/salad/caesar-salad.jpg'},
+    //     {menu:'salad', name:'Fruit Salad', img: '/dishes/salad/Fruit Salad.webp'},
+    //     {menu:'salad', name:'Green Salad', img: '/dishes/salad/green-salad.jpg'},
+    //     {menu:'salad', name:'Italian Chopped Salad', img: '/dishes/salad/italian-chopped-salad.jpg'},
+    //     {menu:'salad', name:'Simple Green Salad', img: '/dishes/salad/simple-green-salad.jpg'},
+    //     {menu:'salad', name:'Torellini Salad', img: '/dishes/salad/torellini-salad.jpg'},
 
-        {menu:'noodles', name:'Hakka Noodles', img:'/dishes/noodles/hakka-noodles.webp'},
-        {menu:'noodles', name:'Ramen', img:'/dishes/noodles/Ramen.webp'},
-        {menu:'noodles', name:'Schezwan Noodles', img:'/dishes/noodles/schezwan.webp'},
+    //     {menu:'rolls', name:'Buffalo Chicken Wrap', img: '/dishes/rolls/buffalo-chicken-wrap.avif'},
+    //     {menu:'rolls', name:'Cabbage Wrapped Brats', img:'/dishes/rolls/cabbage-wrapped-brats.avif'},
+    //     {menu:'rolls', name:'Chicken Caesar Wraps', img:'/dishes/rolls/chicken-caesar-wraps.avif'},
+    //     {menu:'rolls', name:'Chicken Quesadilla', img:'/dishes/rolls/chicken-quesadilla.avif'},
+    //     {menu:'rolls', name:'Chicken Shawarma', img:'/dishes/rolls/chicken-shawarma.avif'},
+    //     {menu:'rolls', name:'Collard Wrap Burritos', img:'/dishes/rolls/collard-wrap-burritos.avif'},
 
-        {menu:'sandwiches', name:'Cuban Sandwich', img:'/dishes/sandwiches/cuban-sandwiches.webp'},
-        {menu:'sandwiches', name:'Elvis Sandwich', img:'/dishes/sandwiches/Elvis-sandwich.webp'},
-        {menu:'sandwiches', name:'Monte Cristo Sandwich', img:'/dishes/sandwiches/monte-cristo-sandwich.webp'},
-        {menu:'sandwiches', name:'Panuozzo Sandwich', img:'/dishes/sandwiches/Panuozzo-sandwich.webp'},
-        {menu:'sandwiches', name:'Reuben Sandwich', img:'/dishes/sandwiches/Reuben-sandwich.webp'}
+    //     {menu:'pasta', name:'Angel Hair Pasta', img:'/dishes/pasta/angel-hair-pasta.webp'},
+    //     {menu:'pasta', name:'Bow Tie Pasta', img:'/dishes/pasta/Bow-tie-pasta.webp'},
+    //     {menu:'pasta', name:'Bucatini Pasta', img:'/dishes/pasta/Bucatini-pasta.webp'},
+    //     {menu:'pasta', name:'Ditalini Pasta', img:'/dishes/pasta/Ditalini-pasta.webp'},
 
-    ]
+    //     {menu:'desserts', name:'Blueberry Grunt', img:'/dishes/desserts/blueberry-grunt.jpg'},
+    //     {menu:'desserts', name:'Caramel Corn', img:'/dishes/desserts/caramel-corn.jpg'},
+    //     {menu:'desserts', name:'Chocolate Fudge', img:'/dishes/desserts/chocolate-fudge.jpg'},
+
+    //     {menu:'noodles', name:'Hakka Noodles', img:'/dishes/noodles/hakka-noodles.webp'},
+    //     {menu:'noodles', name:'Ramen', img:'/dishes/noodles/Ramen.webp'},
+    //     {menu:'noodles', name:'Schezwan Noodles', img:'/dishes/noodles/schezwan.webp'},
+
+    //     {menu:'sandwiches', name:'Cuban Sandwich', img:'/dishes/sandwiches/cuban-sandwiches.webp'},
+    //     {menu:'sandwiches', name:'Elvis Sandwich', img:'/dishes/sandwiches/Elvis-sandwich.webp'},
+    //     {menu:'sandwiches', name:'Monte Cristo Sandwich', img:'/dishes/sandwiches/monte-cristo-sandwich.webp'},
+    //     {menu:'sandwiches', name:'Panuozzo Sandwich', img:'/dishes/sandwiches/Panuozzo-sandwich.webp'},
+    //     {menu:'sandwiches', name:'Reuben Sandwich', img:'/dishes/sandwiches/Reuben-sandwich.webp'}
+
+    // ]
 
   return (
     <>
@@ -50,13 +72,13 @@ const FoodItemContainer = ({category}) => {
             category===null?(
               dishes.map((dish)=>{
                 return(
-                  <FoodItem dish={dish}/>
+                  <FoodItem key={dish.id} dish={dish}/>
                 )
               })
             ) : (
-              dishes.filter(dish=>dish.menu===category).map((dish)=>{
+              dishes.filter(dish=>dish.category===category).map((dish)=>{
                 return(
-                  <FoodItem dish={dish}/>
+                  <FoodItem key={dish.id} dish={dish}/>
                 )
               })
             )
