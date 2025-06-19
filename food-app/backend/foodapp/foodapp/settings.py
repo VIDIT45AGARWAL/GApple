@@ -61,7 +61,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'foodapp.urls'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS =[
+    'http://localhost:5173',
+    'http://localhost:5174',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
