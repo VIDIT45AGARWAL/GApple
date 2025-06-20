@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,13 +39,24 @@ INSTALLED_APPS = [
     'rest_framework',
     'menu',
     'corsheaders',
+    'rest_framework.authtoken',
+    'accounts.apps.AccountsConfig',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

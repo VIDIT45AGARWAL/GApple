@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import LoginPopup from './components/LoginPopup'
 import CartItem from './components/cartItem'
 import PlaceOrder from './components/PlaceOrder'
+import { AuthProvider } from './context/AuthContext'
 
 const App = () => {
 
@@ -16,15 +17,18 @@ const App = () => {
 
   return (
     <>
-      <div className='flex flex-col min-h-screen'>
-        {login? <LoginPopup setLogin={setLogin}/>:<></>}
-        <main>
-          <NavBar setLogin={setLogin}/>
-          <Hero/>
-          <MenuBar/>
-        </main>
-        <Footer/>
-      </div>
+      <AuthProvider>
+          <div className='flex flex-col min-h-screen'>
+          {login? <LoginPopup setLogin={setLogin}/>:<></>}
+          <main>
+            <NavBar setLogin={setLogin}/>
+            <Hero/>
+            <MenuBar/>
+          </main>
+          <Footer/>
+        </div>
+      </AuthProvider>
+      
 
       {/* <div className='flex flex-col min-h-screen'>
         {login? <LoginPopup setLogin={setLogin}/>:<></>}
