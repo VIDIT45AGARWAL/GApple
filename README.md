@@ -52,4 +52,4 @@ VITE_API_BASE_URL=http://localhost:8000/api/
 ```
 
 ## 🎬 Demo Video
-[Demo Video]()
+[Demo Video](https://drive.google.com/file/d/1vcgOPNv-V-aY14yYDQG5z8hxL4S-pDTy/view?t=6)
