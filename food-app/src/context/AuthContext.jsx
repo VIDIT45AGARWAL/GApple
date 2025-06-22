@@ -21,6 +21,7 @@ export const AuthProvider = ({children}) =>{
                         }
                     })
                     setUser(response.data)
+                    axios.defaults.headers.common['Authorization'] = `Token ${token}`
                 } catch(error){
                     console.error(error)
                     logout()
@@ -38,7 +39,7 @@ export const AuthProvider = ({children}) =>{
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/login/`, {
                 email,
                 password
-            })
+            }, {headers: {Authorization: undefined}})
 
             localStorage.setItem('token', response.data.token)
             setToken(response.data.token)
@@ -54,10 +55,13 @@ export const AuthProvider = ({children}) =>{
     
     const register = async (formData) =>{
         try{
-            const response= await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/register/`, formData)
+            const response= await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/register/`, formData,
+                {headers: {Authorization: undefined}}
+            )
             localStorage.setItem('token', response.data.token)
             setToken(response.data.token)
             setUser(response.data.user)
+            axios.defaults.headers.common['Authorization'] = `Token ${response.data.token}`
             return {success: true}
         } catch(error){
             console.error('Registration error' ,error)
@@ -84,6 +88,7 @@ export const AuthProvider = ({children}) =>{
         localStorage.removeItem('token')
         setToken(null)
         setUser(null)
+        delete axios.defaults.headers.common['Authorization']
     }
 
     return(

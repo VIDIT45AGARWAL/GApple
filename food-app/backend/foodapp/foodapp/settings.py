@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'accounts.apps.AccountsConfig',
+    'django_extensions',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -57,6 +58,7 @@ REST_FRAMEWORK = {
     ]
 }
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +77,9 @@ CORS_ALLOWED_ORIGINS =[
     'http://localhost:5173',
     'http://localhost:5174',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

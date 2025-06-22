@@ -10,6 +10,12 @@ import LoginPopup from './components/LoginPopup'
 import CartItem from './components/cartItem'
 import PlaceOrder from './components/PlaceOrder'
 import { AuthProvider } from './context/AuthContext'
+import Homepage from './pages/Homepage'
+import CartPage from './pages/CartPage'
+import PlaceOrderPage from './pages/PlaceOrderPage'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext'
+import OrderPlaced from './pages/OrderPlaced'
 
 const App = () => {
 
@@ -18,35 +24,17 @@ const App = () => {
   return (
     <>
       <AuthProvider>
-          <div className='flex flex-col min-h-screen'>
-          {login? <LoginPopup setLogin={setLogin}/>:<></>}
-          <main>
-            <NavBar setLogin={setLogin}/>
-            <Hero/>
-            <MenuBar/>
-          </main>
-          <Footer/>
-        </div>
+        <CartProvider>
+          <Router>
+            <Routes>
+              <Route path='/' element={<Homepage login={login} setLogin={setLogin}/>}/>
+              <Route path='/cart' element={<CartPage login={login} setLogin={setLogin}/>}/>
+              <Route path='/place-order' element={<PlaceOrderPage login={login} setLogin={setLogin}/>}/>
+              <Route path='/order-placed' element={<OrderPlaced login={login} setLogin={setLogin}/>}/>
+            </Routes>
+          </Router>
+        </CartProvider>
       </AuthProvider>
-      
-
-      {/* <div className='flex flex-col min-h-screen'>
-        {login? <LoginPopup setLogin={setLogin}/>:<></>}
-        <main className='flex-grow'>
-          <NavBar setLogin={setLogin}/>
-          <CartItem/>
-        </main>
-        <Footer/>
-      </div> */}
-
-        {/* <div className='flex flex-col min-h-screen'>
-          {login? <LoginPopup setLogin={setLogin}/>:<></>}
-          <main className='flex-grow'>
-            <NavBar setLogin={setLogin}/>
-            <PlaceOrder/>
-          </main>
-          <Footer/>
-        </div> */}
     </>
   )
 }
