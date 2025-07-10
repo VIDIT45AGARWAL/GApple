@@ -66,3 +66,59 @@ class CartItem(models.Model):
     def total_price(self):
         return self.food.price * self.quantity
     
+class Order(models.Model):
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('preparing', 'Preparing'),
+        ('out_for_delivery', 'Out for Delivery'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    user= models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='orders'
+    )
+
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+
+
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
+
+    total_amount= models.DecimalField(max_digits=8, decimal_places=2)
+
+    firstName= models.CharField(max_length=50)
+    lastName= models.CharField(max_length=50)
+    email= models.EmailField(max_length=50)
+    address=models.TextField()
+    pincode=models.CharField(max_length=6)
+    phoneNo=models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"Order by {self.user.email}"
+    
+class OrderItems(models.Model):
+    order= models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    food=models.ForeignKey(
+        Food,
+        on_delete=models.PROTECT,
+    )
+    quantity=models.PositiveIntegerField()
+    price=models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.quantity} X {self.food.name} in Order for {self.order.user.email}'
+    
+    @property
+    def total_price(self):
+        return self.price * self.quantity
+    
+

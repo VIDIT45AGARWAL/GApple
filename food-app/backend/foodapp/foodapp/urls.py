@@ -17,16 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from menu.views import FoodViewSet, CartViewSet
+from menu.views import FoodViewSet, CartViewSet, OrderViewSet, create_checkout_session
 from django.conf import settings
 from django.conf.urls.static import static
 
 router = DefaultRouter()
 router.register(r'foods', FoodViewSet, basename='food')
 router.register(r'carts', CartViewSet, basename='cart')
+router.register(r'order', OrderViewSet, basename='order')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/auth/', include('accounts.urls')),
+    path('create-checkout-session/<int:order_id>/', create_checkout_session)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

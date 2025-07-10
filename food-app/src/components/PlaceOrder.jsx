@@ -69,6 +69,7 @@ const PlaceOrder = () => {
       alert('Please login to place an order')
       return
     }
+    console.log('Cart:', cart, 'Total Items:', getTotalItems());
     if (isCartLoading || !cart || getTotalItems() === 0) {
       alert('Cart is empty or loading, please try again')
       return
@@ -84,23 +85,33 @@ const PlaceOrder = () => {
     }
 
     setIsSubmitting(true)
-    try {
-      console.log('Submitting order:', { ...formData, cart_id: cart.id })
-      console.log('Using token:', token)
-      console.log('Order placed successfully:')
-      await clearCart()
-      alert('Order placed successfully!')
-      navigate(`/order-placed`)
+    try{
+      const orderPayload ={
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        address: formData.address,
+        pincode: formData.pinCode,
+        phoneNo: formData.phone,
+        total_amount: parseFloat(total),
+      }
+      console.log('Order Payload:', orderPayload);
+      const orderResponse =await axios.post(`${import.meta.env.VITE_API_BASE_URL}order/`, orderPayload, {headers:{Authorization: `Token ${token}`}})  
+
+      const orderId=orderResponse.data.id
+
+      const stripeResponse=await axios.post(`${import.meta.env.VITE_API_BASE_URL.replace('/api/','/')}create-checkout-session/${orderId}/`,{}, {headers: {Authorization: `Token ${token}`}})
+
+      window.location.href=stripeResponse.data.checkout_url
+
     } catch (error) {
-      let errorMessage = 'An error occurred while placing the order.'
-      alert(`Failed to place order: ${errorMessage}`);
-    } finally {
-      setIsSubmitting(false);
+      console.error('Error during checkout:', error.response?.data || error.message);
+      alert('Something went wrong during checkout: ' + JSON.stringify(error.response?.data || error.message));
+    } finally{
+      setIsSubmitting(false)
     }
   };
 
-
-  
 
 
   return (

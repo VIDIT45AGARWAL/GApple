@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Food, CartItem, Cart
+from .models import Food, CartItem, Cart, Order, OrderItems
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -60,3 +60,58 @@ class CartSerializer(serializers.ModelSerializer):
 
     def get_total_price(self, obj):
         return sum(item.food.price * item.quantity for item in obj.items.all())
+    
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    food_name= serializers.CharField(source='food.name')
+    food_image= serializers.CharField(source='food.image')
+
+    class Meta:
+        model= OrderItems
+        fields=['food', 'food_name', 'food_image', 'quantity', 'price', 'total_price']
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    items = OrderItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Order
+        fields=['id', 'user', 'created_at', 'updated_at', 'status', 'total_amount', 'firstName', 'lastName', 'email', 'address', 'pincode', 'phoneNo', 'items']
+        read_only_fields=['id', 'user', 'created_at', 'updated_at', 'status', 'items']
+    
+    def create(self, validated_data):
+        request=self.context.get('request')
+        user= request.user
+        print('Validated Data', validated_data)
+        #get cart and its items
+        cart=Cart.objects.get(user=user)
+        cart_items=cart.items.all()
+        print('Cart Items:', cart_items)
+        if not cart_items:
+            raise serializers.ValidationError('Cart is empty')
+        
+        order= Order.objects.create(
+            user=user,
+            total_amount=validated_data['total_amount'],
+            firstName=validated_data['firstName'],
+            lastName=validated_data['lastName'],
+            email=validated_data['email'],
+            address=validated_data['address'],
+            pincode=validated_data['pincode'],
+            phoneNo=validated_data['phoneNo']
+        )
+        
+
+        for item in cart_items:
+            OrderItems.objects.create(
+                order=order,
+                food=item.food,
+                quantity=item.quantity,
+                price=item.food.price,
+            )
+        
+
+        cart.items.all().delete()
+
+        return order
