@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from menu.views import FoodViewSet, CartViewSet, OrderViewSet, create_checkout_session, AdminOrderListView
+from menu.views import FoodViewSet, CartViewSet, OrderViewSet, create_checkout_session, AdminOrderListView, UserOrderListView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -29,6 +29,7 @@ router.register(r'order', OrderViewSet, basename='order')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/order/admin_list/', AdminOrderListView.as_view(), name='admin-order-list'),
+    path('api/order/user_list/', UserOrderListView.as_view(), name='user-order-list'),
     path('api/auth/', include('accounts.urls')),
     path('api/', include(router.urls)),
     path('create-checkout-session/<int:order_id>/', create_checkout_session),

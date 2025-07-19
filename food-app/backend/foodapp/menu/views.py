@@ -171,3 +171,15 @@ class AdminOrderListView(APIView):
             return Response(serializer.data)
         except Exception as e:
             return Response({'error': str(e)}, status=500)
+        
+
+class UserOrderListView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def get(self, request):
+        try:
+            orders=Order.objects.filter(user=request.user).order_by('-created_at')
+            serializer=OrderSerializer(orders, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)

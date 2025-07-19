@@ -21,7 +21,7 @@ const NavBar = ({setLogin}) => {
             <div className='space-x-6 hidden md:block'>
               <Link to='/' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Home</Link>
               <Link to='/' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Menu</Link>
-              <Link to='/' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Contact Us</Link>
+              <Link to='/order-history' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Orders</Link>
             </div>
 
             <div className='space-x-4 sm:space-x-6 flex items-center'>
@@ -30,7 +30,7 @@ const NavBar = ({setLogin}) => {
                   {isAuthenticated ? (
                     <div className="flex items-center space-x-3">
                       <div className="hidden sm:block">
-                        <span className="font-medium text-gray-700">Hi, {user?.first_name || user?.username || 'User'}</span>
+                        <span className="font-medium text-gray-700">Hi,{user?.first_name || user?.username || 'User'}</span>
                       </div>
                       <button className='bg-lime-600 text-white font-bold rounded-lg p-3 text-lg sm:text-xl cursor-pointer hover:bg-lime-800'onClick={logout}>
                         Logout
