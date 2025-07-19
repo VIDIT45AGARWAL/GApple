@@ -38,7 +38,7 @@ const LoginPage = () => {
             setToken(token)
             setUser(user)
             setIsAuthenticated(true)
-            navigate('/admin/orders')
+            navigate('/list')
         } catch(error){
             console.error('Login error: ', error.message)
             setError('Login Failed')
@@ -49,7 +49,7 @@ const LoginPage = () => {
 
   return (
     <>
-        <div className='fixed inset-0 flex items-center justify-center bg-gray-700/20'>
+        <div className='fixed inset-0 flex items-center justify-center bg-gray-700/4'>
             <form onSubmit={handleSubmit} className='bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative'>
                 <div className='flex justify-between items-center mb-6'>
                     <h2 className='text-2xl font-bold text-gray-800'>Admin Login</h2>

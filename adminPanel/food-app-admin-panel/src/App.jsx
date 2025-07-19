@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import SideBar from './components/SideBar'
 import AddItems from './pages/AddItems'
@@ -8,18 +8,18 @@ import Orders from './pages/Orders'
 import LoginPage from './pages/LoginPage'
 import { AuthProvider } from './context/AuthContext'
 
-const App = () => {
+const AppContent = () => {
 
   const [sidebarOpen, setSidebarOpen]=useState(false)
+  const location= useLocation()
+  const notLogin = ['/add', '/list', '/orders'].includes(location.pathname)
 
   return (
     <>
-      <BrowserRouter>
-        <AuthProvider>
         <div className="min-h-screen bg-gray-50">
-          <NavBar onMenuToggle={setSidebarOpen} />
+          {notLogin && <NavBar onMenuToggle={setSidebarOpen} />}
           <div className="flex pt-16">
-            <SideBar isOpen={sidebarOpen} />
+            {notLogin && <SideBar isOpen={sidebarOpen} />}
             <main className="flex-1 p-4 lg:p-8">
               <Routes>
                 <Route path="/" element={<LoginPage/>}/>
@@ -30,9 +30,17 @@ const App = () => {
             </main>
           </div>
         </div>
+    </>
+  )
+}
+
+const App = () =>{
+  return(
+    <BrowserRouter>
+      <AuthProvider>
+        <AppContent/>
       </AuthProvider>
     </BrowserRouter>
-    </>
   )
 }
 
