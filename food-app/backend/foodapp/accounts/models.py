@@ -7,7 +7,7 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=20, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     
-    # Add these lines to resolve the conflicts
+   
     groups = models.ManyToManyField(
         Group,
         verbose_name=_('groups'),
@@ -16,7 +16,7 @@ class CustomUser(AbstractUser):
             'The groups this user belongs to. A user will get all permissions '
             'granted to each of their groups.'
         ),
-        related_name="customuser_set",  # Changed from default 'user_set'
+        related_name="customuser_set",  
         related_query_name="user",
     )
     user_permissions = models.ManyToManyField(
@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
         verbose_name=_('user permissions'),
         blank=True,
         help_text=_('Specific permissions for this user.'),
-        related_name="customuser_set",  # Changed from default 'user_set'
+        related_name="customuser_set",  
         related_query_name="user",
     )
     

@@ -4,10 +4,11 @@ from .models import Food, Cart, CartItem, Order
 from .serializers import FoodSerializer, CartItemSerializer, CartSerializer, OrderSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.decorators import action, api_view, permission_classes
 import stripe
 from django.conf import settings
+from rest_framework.views import APIView
 
 
 class FoodViewSet(viewsets.ModelViewSet):
@@ -147,8 +148,8 @@ def create_checkout_session(request, order_id):
                 payment_method_types=['card'],
                 line_items=line_items,
                 mode='payment',
-                success_url='http://localhost:5173',
-                cancel_url='http://localhost:5173',
+                success_url='http://localhost:5173/order-placed',
+                cancel_url='http://localhost:5173/order-placed',
                 customer_email=order.email,
                 metadata={'order_id': order.id}
             )
@@ -157,5 +158,16 @@ def create_checkout_session(request, order_id):
 
         except Order.DoesNotExist:
             return Response({'error': 'Order not found'}, status=404)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
+
+class AdminOrderListView(APIView):
+    permission_classes=[IsAdminUser]
+
+    def get(self, request):
+        try:
+            orders= Order.objects.all().order_by('-created_at')
+            serializer=OrderSerializer(orders, many=True)
+            return Response(serializer.data)
         except Exception as e:
             return Response({'error': str(e)}, status=500)
