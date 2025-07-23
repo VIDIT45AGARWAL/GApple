@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import axios from 'axios'
 
 const LoginPopup = ({setLogin}) => {
 
@@ -16,6 +17,9 @@ const LoginPopup = ({setLogin}) => {
     const [error, setError]=useState('')
     const [loading, setLoading]=useState(false)
     const {login, register} = useAuth()
+    const [showOTPInput, setShowOTPInput]= useState(false)
+    const [otp, setOtp]=useState('')
+    const [unverifiedEmail, setUnverifiedEmail]=useState('')
 
     const handleChange=(e)=>{
       const{name, value}=e.target
@@ -32,6 +36,12 @@ const LoginPopup = ({setLogin}) => {
         let result
         if(currentState === 'Sign Up'){
           result = await register(formData)
+
+          if(result.needsVerification){
+            setShowOTPInput(true)
+            setUnverifiedEmail(result.email)
+            return
+          }
         } else{
           result = await login(formData.email, formData.password)
         }
@@ -50,6 +60,22 @@ const LoginPopup = ({setLogin}) => {
       }
     }
 
+    const handleOTPVerify=async()=>{
+      try{
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/verify-email-otp/`, {email:unverifiedEmail, otp:otp})
+        if(response.data.success){
+          alert('Email verified! Please log in.')
+          setShowOTPInput(false)
+          setCurrentState('Login')
+        } else{
+          setError('Invalid OTP or expired')
+        }
+      } catch(error){ 
+        console.error(error)
+        setError(error.response?.data?.error || 'OTP verification failed')
+      }
+    }
+
   return (
     <>
         <div className='fixed inset-0 flex items-center justify-center z-50 bg-black/50'>
@@ -58,6 +84,7 @@ const LoginPopup = ({setLogin}) => {
                     <h2 className='text-2xl font-bold text-gray-800'>{currentState}</h2>
                     <i className='bx bx-x-circle text-3xl text-gray-500 hover:text-red-500 cursor-pointer' onClick={()=>setLogin(false)}></i>
                 </div>
+
 
                 {error && (
                   <div className='mb-4 p-3 bg-red-100 text-red-700 rounded-lg'>
@@ -94,12 +121,30 @@ const LoginPopup = ({setLogin}) => {
 
                 <div className='text-center text-sm text-gray-600'>
                     {currentState==='Login'?(
-                        <p>Create a new account? <span onClick={()=>{setCurrentState('Sign Up'); setError('')}} className='text-lime-600 font-semibold cursor-pointer hover:underline'>Click here</span></p>
+                      <p>Create a new account? <span onClick={()=>{setCurrentState('Sign Up'); setError('')}} className='text-lime-600 font-semibold cursor-pointer hover:underline'>Click here</span></p>
                     ):(
-                        <p>Already have an account? <span onClick={()=>{setCurrentState('Login'); setError('')}} className='text-lime-600 font-semibold cursor-pointer hover:underline'>Login here</span></p>
+                      <p>Already have an account? <span onClick={()=>{setCurrentState('Login'); setError('')}} className='text-lime-600 font-semibold cursor-pointer hover:underline'>Login here</span></p>
                     )}
                 </div>
                 
+        {showOTPInput && (
+          <div className="my-4">
+            <input
+              type="text"
+              placeholder="Enter OTP sent to email"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-600 mb-4"
+            />
+            <button
+              type="button"
+              onClick={handleOTPVerify}
+              className="mt-2 w-full bg-lime-600 text-white py-3 px-4 rounded-lg hover:bg-lime-700"
+            >
+              Verify Email
+            </button>
+          </div>
+        )}
             </form>
         </div>
     </>

@@ -58,6 +58,16 @@ export const AuthProvider = ({children}) =>{
             const response= await axios.post(`${import.meta.env.VITE_API_BASE_URL}auth/register/`, formData,
                 {headers: {Authorization: undefined}}
             )
+
+            if(!response.data.user.is_email_verified){
+                return{
+                    success: false,
+                    needsVerification: true,
+                    message:'Please verify your email using the OTP sent to you',
+                    email:response.data.user.email
+                }
+            }
+
             localStorage.setItem('token', response.data.token)
             setToken(response.data.token)
             setUser(response.data.user)

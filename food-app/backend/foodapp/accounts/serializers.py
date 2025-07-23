@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework.authtoken.models import Token
+from .utils import generate_otp
+from django.core.mail import send_mail
+from django.conf import settings
 
 User = get_user_model()
 
@@ -12,13 +15,25 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ('email', 'username', 'password', 'first_name', 'last_name')
     
     def create(self, validated_data):
+        otp=generate_otp()
         user = User.objects.create_user(
             email=validated_data['email'],
             username=validated_data['username'],
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', '')
+            last_name=validated_data.get('last_name', ''),
+            email_otp=otp,
+            is_email_verified=False,
         )
+
+        send_mail(
+            'Email Verification OTP',
+            f'Your OTP for email verification is: {otp}',
+            settings.EMAIL_HOST_USER,
+            [user.email],
+            fail_silently=False,
+        )
+
         return user
 
 class UserLoginSerializer(serializers.Serializer):
@@ -48,4 +63,18 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(msg)
         
         data['user'] = user
+        return data
+    
+
+class VerifyEmailOTPSerializer(serializers.Serializer):
+    email=serializers.EmailField()
+    otp=serializers.CharField(max_length=6)
+
+    def validate(self, data):
+        try:
+            user=User.objects.get(email=data['email'])
+            if user.email_otp!=data['otp']:
+                raise serializers.ValidationError('Invalid OTP')
+        except User.DoesNotExist:
+            raise serializers.ValidationError('Invalid Email')
         return data

@@ -2,11 +2,14 @@ from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
-from .serializers import UserRegistrationSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, VerifyEmailOTPSerializer
 from .models import CustomUser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.contrib.auth import get_user_model
 
-
+User=get_user_model()
 
 class UserRegistrationAPIView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -21,7 +24,10 @@ class UserRegistrationAPIView(generics.CreateAPIView):
             headers = self.get_success_headers(serializer.data)
             token, created = Token.objects.get_or_create(user=user)
             return Response({
-                'user': serializer.data,
+                'user': {
+                    **serializer.data,
+                    'is_email_verified':user.is_email_verified
+                },
                 'token': token.key
             }, status=status.HTTP_201_CREATED, headers=headers)
         except IntegrityError:
@@ -82,3 +88,17 @@ class UserProfileAPIView(APIView):
         user= request.user
         serializer=UserRegistrationSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class VerifyEmailOTPView(APIView):
+    permission_classes=[AllowAny]
+
+    def post(self, request):
+        serializer=VerifyEmailOTPSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user=User.objects.get(email=serializer.validated_data['email'])
+        user.is_email_verified=True
+        user.email_otp=None
+        user.save()
+
+        return Response({'success': True, 'detail':'Email verified successfully'}, status=status.HTTP_200_OK)

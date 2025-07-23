@@ -6,6 +6,8 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+    is_email_verified=models.BooleanField(default=False)
+    email_otp=models.CharField(max_length=6, null=True, blank=True)
     
    
     groups = models.ManyToManyField(
