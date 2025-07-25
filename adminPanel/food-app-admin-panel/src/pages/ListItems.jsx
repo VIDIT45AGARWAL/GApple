@@ -30,7 +30,13 @@ const ListItems = () => {
         }
     }
 
-    if(loading) return(<div className='text-center py-8'>Loading... </div>)
+    if(loading) return(
+        <div className='flex justify-center items-center h-64'>
+          <div className='text-lime-600 font-bold text-xl animate-pulse'>
+            Loading...
+          </div>
+        </div>
+    )
 
   return (
     <>

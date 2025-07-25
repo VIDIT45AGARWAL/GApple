@@ -31,7 +31,14 @@ const Orders = () => {
   return (
     <>
 
-      <div className='flex flex-col'>
+      {loading ? (
+        <div className='flex justify-center items-center h-64'>
+          <div className='text-lime-600 font-bold text-xl animate-pulse'>
+            Loading orders...
+          </div>
+        </div>
+      ) : (
+        <div className='flex flex-col'>
         {orders.map((order)=>{
           return(
             <div className='my-6 bg-white p-4 rounded-2xl shadow-xl'>
@@ -70,6 +77,7 @@ const Orders = () => {
           )  
         })}
       </div>
+      )}
        
     </>
   )

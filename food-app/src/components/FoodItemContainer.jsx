@@ -22,7 +22,11 @@ const FoodItemContainer = ({category}) => {
   },[category])
 
   if (loading){
-    return <div className='mx-8 sm:mx-32 my-6 text-center'>Loading dishes...</div>
+    return <div className='flex justify-center items-center h-64'>
+              <div className='text-lime-600 font-bold text-xl animate-pulse'>
+                Loading dishes...
+              </div>
+            </div>
   }
 
 

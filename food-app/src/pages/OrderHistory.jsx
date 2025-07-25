@@ -36,7 +36,14 @@ const OrderHistoryContent = () => {
 
   return (
     <>
-      <div className='flex flex-col mx-12'>
+      {loading ? (
+        <div className='flex justify-center items-center h-64'>
+          <div className='text-lime-600 font-bold text-xl animate-pulse'>
+            Loading orders...
+          </div>
+        </div>
+      ) : (
+        <div className='flex flex-col mx-12'>
         {orders.map((order)=>{
           return(
             <div className='my-6 bg-white p-4 rounded-2xl shadow-xl'>
@@ -75,6 +82,7 @@ const OrderHistoryContent = () => {
           )  
         })}
       </div>
+      )}
     </>
   )
 }
