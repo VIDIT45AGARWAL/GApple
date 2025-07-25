@@ -25,7 +25,6 @@ const NavBar = ({setLogin}) => {
             </div>
 
             <div className='space-x-4 sm:space-x-6 flex items-center'>
-              <i class='bx bx-search text-3xl sm:text-4xl cursor-pointer'></i>
               <Link to='/cart'><i class='bx bx-cart text-3xl sm:text-4xl cursor-pointer'></i></Link>
                   {isAuthenticated ? (
                     <div className="flex items-center space-x-3">

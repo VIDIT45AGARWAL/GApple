@@ -38,11 +38,11 @@ const ListItems = () => {
             <h1 className='text-3xl font-bold text-center mb-8'>Items List</h1>
 
             <div className='grid grid-cols-12 gap-4 mb-4 p-4 bg-gray-200 rounded-lg font-semibold'>
-                <div className='col-span-2'>Image</div>
-                <div className='col-span-4'>Name</div>
-                <div className='col-span-2'>Category</div>
-                <div className='col-span-2'>Price</div>
-                <div className='col-span-2'>Remove</div>
+                <div className='col-span-2 text-xs sm:text-lg'>Image</div>
+                <div className='col-span-4 text-xs'>Name</div>
+                <div className='col-span-2 text-xs'>Category</div>
+                <div className='col-span-2 text-xs text-end sm:text-start'>Price</div>
+                <div className='col-span-2 text-xs'>Remove</div>
             </div>
 
 
@@ -60,10 +60,10 @@ const ListItems = () => {
                                     <img src={imageUrl} className='size-16 rounded' />
                                 </div>
 
-                                <div className='col-span-4 font-medium'>{item.name}</div>
-                                <div className='col-span-2 text-gray-600 capitalize'>{item.category}</div>
-                                <div className='col-span-2'>${item.price}</div>
-                                <div className='col-span-2'>
+                                <div className='text-xs sm:text-md col-span-4 font-medium'>{item.name}</div>
+                                <div className='text-xs sm:text-md col-span-2 text-gray-600 capitalize'>{item.category}</div>
+                                <div className='text-xs text-end sm:text-start sm:text-md col-span-2'>${item.price}</div>
+                                <div className='text-xs sm:text-md col-span-2'>
                                     <i class='bx bx-x-circle text-gray-600 hover:text-red-600 cursor-pointer text-3xl px-3 py-1' onClick={()=> handleRemove(item.id)}></i>
                                 </div>
                             </div>
