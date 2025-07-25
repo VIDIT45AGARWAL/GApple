@@ -8,7 +8,6 @@ const MenuList = ({category, setCategory}) => {
         {menu_name: 'pasta', menu_image:'/menu/pasta.jpg'},
         {menu_name: 'desserts', menu_image:'/menu/desserts.jpg'},
         {menu_name: 'noodles', menu_image: '/menu/noodles.jpg'},
-        {menu_name: 'Pure Veg', menu_image: '/menu/pureVeg.jpeg'},
         {menu_name: 'sandwiches', menu_image: '/menu/sandwich.jpg'},
     ]
 
@@ -16,7 +15,7 @@ const MenuList = ({category, setCategory}) => {
     <>
         <div className='mt-12 px-12'>
             <div>
-                <h1 className='p-3 font-bold text-3xl text-lime-600'>
+                <h1 id='Menu' className='p-3 font-bold text-3xl text-lime-600'>
                     Explore our Menu
                 </h1>          
             </div>

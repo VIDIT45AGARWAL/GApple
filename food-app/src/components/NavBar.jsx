@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { Link } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 
 const NavBar = ({setLogin}) => {
 
@@ -20,7 +21,7 @@ const NavBar = ({setLogin}) => {
 
             <div className='space-x-6 hidden md:block'>
               <Link to='/' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Home</Link>
-              <Link to='/' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Menu</Link>
+              <HashLink smooth to='/#Menu' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Menu</HashLink>
               <Link to='/order-history' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Orders</Link>
             </div>
 
@@ -41,6 +42,11 @@ const NavBar = ({setLogin}) => {
                     </button>
                 )}
             </div>
+          </div>
+          <div className='md:hidden flex gap-4 justify-center p-3'>
+              <Link to='/' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Home</Link>
+              <HashLink smooth to='/#Menu' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Menu</HashLink>
+              <Link to='/order-history' className='text-xl hover:text-gray-900 hover:underline font-bold text-gray-600'>Orders</Link>
           </div>
         </nav>
     </>

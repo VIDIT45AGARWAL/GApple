@@ -1,4 +1,6 @@
 import React from 'react';
+import { HashLink } from 'react-router-hash-link';
+
 
 const Hero = () => {
   return (
@@ -11,9 +13,11 @@ const Hero = () => {
         <p className='text-white font-bold text-base sm:text-lg md:text-xl p-2 sm:p-4 mt-1 sm:mt-3'>
           Best food makes people think of big family dinners. So you may want to position your restaurant as a place to bring the whole family.
         </p>
-        <button className='cursor-pointer mt-2 sm:mt-3 p-2 sm:p-3 md:p-4 bg-white rounded-full text-lime-600 text-lg sm:text-xl font-bold hover:bg-neutral-200 transition-colors mx-auto lg:mx-0'>
-          View Menu
-        </button>
+        <HashLink smooth to='/#Menu'>
+          <button className='cursor-pointer mt-2 sm:mt-3 p-2 sm:p-3 md:p-4 bg-white rounded-full text-lime-600 text-lg sm:text-xl font-bold hover:bg-neutral-200 transition-colors mx-auto lg:mx-0'>
+            View Menu
+          </button>
+        </HashLink>
       </div>
     </div>
   );
