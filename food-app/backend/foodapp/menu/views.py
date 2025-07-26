@@ -148,8 +148,8 @@ def create_checkout_session(request, order_id):
                 payment_method_types=['card'],
                 line_items=line_items,
                 mode='payment',
-                success_url='http://localhost:5173/order-placed',
-                cancel_url='http://localhost:5173/order-placed',
+                success_url='https://g-apple.vercel.app/order-placed',
+                cancel_url='https://g-apple.vercel.app/order-placed',
                 customer_email=order.email,
                 metadata={'order_id': order.id}
             )
