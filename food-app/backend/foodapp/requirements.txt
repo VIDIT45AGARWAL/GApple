@@ -13,3 +13,4 @@ stripe==12.2.0
 python-dotenv
 psycopg2-binary>=2.9.9
 Pillow
+whitenoise
