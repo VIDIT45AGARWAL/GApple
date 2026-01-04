@@ -3,6 +3,7 @@ from accounts.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.conf import settings
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -18,7 +19,7 @@ class Food(models.Model):
 
     name=models.CharField(max_length=100)
     price=models.DecimalField(max_digits=6, decimal_places=2)
-    image=models.ImageField(upload_to='food_images/')
+    image = CloudinaryField('image', folder='food_images')
     category=models.CharField(max_length=20, choices=CATEGORY_CHOICES)
 
     def __str__(self):

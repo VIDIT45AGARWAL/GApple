@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import viewsets, status
 from .models import Food, Cart, CartItem, Order
 from .serializers import FoodSerializer, CartItemSerializer, CartSerializer, OrderSerializer
@@ -14,6 +13,16 @@ class FoodViewSet(viewsets.ModelViewSet):
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
     parser_classes = [MultiPartParser, FormParser]
+    
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            # Require authentication for write operations
+            return [IsAuthenticated()]
+        # Allow any for read operations (list, retrieve)
+        return [AllowAny()]
 
     def get_queryset(self):
         category = self.request.query_params.get('category')

@@ -1,10 +1,15 @@
 from rest_framework import serializers
 from .models import Food, CartItem, Cart, Order, OrderItems
 from django.contrib.auth import get_user_model
+from cloudinary.utils import cloudinary_url
+import cloudinary.uploader
 
 User = get_user_model()
 
 class FoodSerializer(serializers.ModelSerializer):
+
+    image_url = serializers.SerializerMethodField()
+    image = serializers.ImageField(write_only=True, required=True)
 
     price = serializers.DecimalField(
         max_digits=6,
@@ -15,6 +20,42 @@ class FoodSerializer(serializers.ModelSerializer):
     class Meta:
         model=Food
         fields = '__all__'
+        read_only_fields = ('image_url',)
+    
+    def get_image_url(self, obj):
+        if obj.image:
+            
+            if hasattr(obj.image, 'url'):
+                return obj.image.url
+            
+            elif isinstance(obj.image, str):
+                url, _ = cloudinary_url(obj.image, format='auto', secure=True)
+                return url
+        return None
+
+    def create(self, validated_data):
+        image_file = validated_data.pop('image', None)
+        
+        if image_file:
+            upload_result = cloudinary.uploader.upload(
+                image_file,
+                folder='food_images'
+            )
+            validated_data['image'] = upload_result['public_id']
+        
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        image_file = validated_data.pop('image', None)
+        
+        if image_file:
+            upload_result = cloudinary.uploader.upload(
+                image_file,
+                folder='food_images'
+            )
+            validated_data['image'] = upload_result['public_id']
+        
+        return super().update(instance, validated_data)
 
 
 class CartItemSerializer(serializers.ModelSerializer):

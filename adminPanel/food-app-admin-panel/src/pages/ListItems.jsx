@@ -6,6 +6,10 @@ const ListItems = () => {
     const [foodItems, setFoodItems] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const getAuthToken = () => {
+        return localStorage.getItem('token') || localStorage.getItem('authToken');
+    }
+
     useEffect(()=>{
         const fetchFoodItems = async ()=>{
             try{
@@ -23,11 +27,40 @@ const ListItems = () => {
 
     const handleRemove = async (id)=>{
         try{
-            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}foods/${id}/`)
+            const token = getAuthToken();
+            if (!token) {
+                console.error('No authentication token found. Please log in.');
+                // Optionally redirect to login page
+                // window.location.href = '/login';
+                return;
+            }
+            
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}foods/${id}/`, {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            })
             setFoodItems(foodItems.filter(item=> item.id !== id))
         } catch (error){
-            console.error(error)
+            console.error('Error deleting item:', error)
+            if (error.response && error.response.status === 401) {
+                console.error('Unauthorized: Please log in again');
+                // Optionally clear token and redirect to login
+                localStorage.removeItem('token');
+                // window.location.href = '/login';
+            }
         }
+    }
+
+    const getImageUrl = (image) => {
+        if (!image) return '/placeholder-food.png'
+        if (image.startsWith('data:image')) {
+            return image
+        }
+        if (image.startsWith('http')) {
+            return image
+        }
+        return `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${image}`
     }
 
     if(loading) return(
@@ -57,20 +90,19 @@ const ListItems = () => {
                     <div className='text-center py-8'>No Items found</div>
                 ) : (
                     foodItems.map((item)=>{
-                        const imageUrl = item.image.startsWith('http')
-                                ? item.image
-                                : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${item.image}`
+                        const imageUrl = getImageUrl(item.image_url)
+                        console.log("ITEM IMAGE:", item.image_url)
                         return(
                             <div key={item.id} className='grid grid-cols-12 gap-4 items-center mb-4 p-4 bg-gray-100 rounded-lg shadow-sm'>
                                 <div className='col-span-2'>
-                                    <img src={imageUrl} className='size-16 rounded' />
+                                    <img src={imageUrl} className='size-16 rounded' alt={item.name} />
                                 </div>
 
                                 <div className='text-xs sm:text-md col-span-4 font-medium'>{item.name}</div>
                                 <div className='text-xs sm:text-md col-span-2 text-gray-600 capitalize'>{item.category}</div>
                                 <div className='text-xs text-end sm:text-start sm:text-md col-span-2'>${item.price}</div>
                                 <div className='text-xs sm:text-md col-span-2'>
-                                    <i class='bx bx-x-circle text-gray-600 hover:text-red-600 cursor-pointer text-3xl px-3 py-1' onClick={()=> handleRemove(item.id)}></i>
+                                    <i className='bx bx-x-circle text-gray-600 hover:text-red-600 cursor-pointer text-3xl px-3 py-1' onClick={()=> handleRemove(item.id)}></i>
                                 </div>
                             </div>
                         )
