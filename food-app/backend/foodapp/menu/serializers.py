@@ -21,7 +21,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     food_id = serializers.PrimaryKeyRelatedField(
         queryset=Food.objects.all(),
         source='food',
-        write_only=True
+        # write_only=True
     )
     name = serializers.CharField(source='food.name', read_only=True)
     price = serializers.DecimalField(
