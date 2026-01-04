@@ -9,18 +9,21 @@ const FoodItem = ({ dish }) => {
   const [quantity, setQuantity] = useState(0);
   const isOperatingRef = useRef(false);
 
-  const cartItem = cart?.items?.find((item) => item.food_id === dish.id);
-  const currentQuantityInCart = cartItem ? cartItem.quantity : 0;
+  const getCurrentCartItem = () => {
+    if (!cart?.items) return null;
+    return cart.items.find((item) => item.food_id === dish.id);
+  };
 
   useEffect(() => {
-    setQuantity(currentQuantityInCart);
-  }, [currentQuantityInCart]);
+    const currentItem = getCurrentCartItem();
+    setQuantity(currentItem ? currentItem.quantity : 0);
+  }, [cart]);
 
   const imageUrl = dish.image.startsWith('http')
     ? dish.image
     : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${dish.image}`;
 
-  const handleQuantityChange = async (newQuantity) => {
+  const handleQuantityChange = async (targetQuantity) => {
     if (!isAuthenticated) {
       alert('Please login to add items to cart');
       return;
@@ -37,16 +40,21 @@ const FoodItem = ({ dish }) => {
     const previousQuantity = quantity;
 
     try {
-      setQuantity(newQuantity > 0 ? newQuantity : 0);
+      setQuantity(targetQuantity > 0 ? targetQuantity : 0);
 
-      if (newQuantity <= 0) {
-        if (cartItem) {
-          await removeFromCart(cartItem.id);
+      const currentItem = getCurrentCartItem();
+
+      if (targetQuantity <= 0) {
+        if (currentItem) {
+          await removeFromCart(currentItem.id);
         }
       } else if (previousQuantity === 0) {
-        await addToCart(dish, newQuantity);
+        await addToCart(dish, targetQuantity);
       } else {
-        await updateQuantity(cartItem.id, newQuantity);
+        if (!currentItem) {
+          throw new Error('Item disappeared from cart unexpectedly');
+        }
+        await updateQuantity(currentItem.id, targetQuantity);
       }
     } catch (error) {
       setQuantity(previousQuantity);
