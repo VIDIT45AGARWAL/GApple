@@ -1,12 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/GApple/(.*)",
-      "destination": "/GApple/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/GApple/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
