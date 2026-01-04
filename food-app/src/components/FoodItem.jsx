@@ -9,11 +9,9 @@ const FoodItem = ({ dish }) => {
   const [quantity, setQuantity] = useState(0);
   const isOperatingRef = useRef(false);
 
-  
   const cartItem = cart?.items?.find((item) => item.food_id === dish.id);
   const currentQuantityInCart = cartItem ? cartItem.quantity : 0;
 
-  
   useEffect(() => {
     setQuantity(currentQuantityInCart);
   }, [currentQuantityInCart]);
@@ -22,7 +20,6 @@ const FoodItem = ({ dish }) => {
     ? dish.image
     : `${import.meta.env.VITE_API_BASE_URL.replace('/api', '')}${dish.image}`;
 
-  
   const handleQuantityChange = async (newQuantity) => {
     if (!isAuthenticated) {
       alert('Please login to add items to cart');
@@ -34,14 +31,14 @@ const FoodItem = ({ dish }) => {
       return;
     }
 
-    
     if (isOperatingRef.current) return;
     isOperatingRef.current = true;
 
     const previousQuantity = quantity;
 
     try {
-      setQuantity(newQuantity);
+      setQuantity(newQuantity > 0 ? newQuantity : 0);
+
       if (newQuantity <= 0) {
         if (cartItem) {
           await removeFromCart(cartItem.id);
@@ -54,7 +51,7 @@ const FoodItem = ({ dish }) => {
     } catch (error) {
       setQuantity(previousQuantity);
       alert(`Failed: ${error.message}`);
-      console.error(error);
+      console.error('Cart operation failed:', error);
     } finally {
       isOperatingRef.current = false;
     }
