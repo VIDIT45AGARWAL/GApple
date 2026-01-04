@@ -93,6 +93,7 @@ CORS_ALLOWED_ORIGINS =[
     'http://localhost:5174',
     'https://g-apple.vercel.app',
     'https://gappleadminpanel.vercel.app',
+    'https://gapple.onrender.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
