@@ -15,7 +15,7 @@ Make sure you have Node.js installed on your system. [Download Node.js here](htt
 
 ```bash
 cd food-app
-npm install vite
+npm install
 npm run dev
 ```
 
@@ -30,7 +30,7 @@ VITE_API_BASE_URL=http://localhost:8000/api/
 ```bash
 cd food-app
 cd backend
-pip install djangorestframework django django-cors-headers django-extensions
+pip install -r requirements.txt
 python3 manage.py runserver
 ```
 
@@ -41,7 +41,7 @@ Your backend API should be running at http://localhost:8000
 ```bash
 cd adminPanel
 cd food-app-admin-panel
-npm install vite
+npm install
 npm run dev
 ```
 
