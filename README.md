@@ -15,101 +15,53 @@ Welcome to **GApple**, your ultimate destination to **order the most delicious f
 
 ## 📸 Complete Application Guide
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="gifs/signup.gif" width="100%" alt="User Registration" />
-    </td>
-    <td width="50%">
-      <h3>1. User Registration</h3>
-      <p>The journey begins with a seamless user registration process. The user fills in their basic details—such as name, email, and password—and clicks on sign up to create a new account.</p>
-    </td>
-  </tr>
-</table>
+### 1. User Registration
+The journey begins with a seamless user registration process. The user fills in their basic details—such as name, email, and password—and clicks on sign up to create a new account. The application uses a clean React form with real-time validation to ensure all fields are correctly formatted before submission to the Django backend.
 
-<table>
-  <tr>
-    <td width="50%">
-      <h3>2. Two-Step Email Authentication (OTP)</h3>
-      <p>Security is a top priority. As soon as a user signs up, the system requires 2-step email verification. A unique OTP is sent to their registered email address. The user opens their inbox, retrieves the OTP, and enters it on the verification screen to successfully activate their account.</p>
-    </td>
-    <td width="50%">
-      <img src="gifs/EmailAuthenticationOTP.gif" width="100%" alt="OTP Verification" />
-    </td>
-  </tr>
-</table>
+<img src="gifs/signup.gif" width="100%" alt="User Registration" />
+<br>
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="gifs/AddItemsToCart.gif" width="100%" alt="Adding items to cart" />
-    </td>
-    <td width="50%">
-      <h3>3. Interactive Menu & Cart Management</h3>
-      <p>Users can browse the dynamic menu and seamlessly add items to their cart. By clicking the plus and minus icons, they can adjust quantities on the fly. Clicking the cart button reveals a complete, categorized list of selected items along with the calculated total order amount.</p>
-    </td>
-  </tr>
-</table>
+### 2. Two-Step Email Authentication (OTP)
+Security is a top priority. As soon as a user signs up, the system requires 2-step email verification to prevent spam accounts. A unique, time-based OTP (One-Time Password) is generated on the backend and sent to their registered email address. The user opens their inbox, retrieves the OTP, and enters it on the verification screen. Once validated, their account is successfully activated and ready to use.
 
-<table>
-  <tr>
-    <td width="50%">
-      <h3>4. Delivery Information</h3>
-      <p>Once the user is satisfied with their cart, they proceed to provide their delivery information. The intuitive form captures essential details like name, pincode, delivery address, and mobile number to ensure accurate order fulfillment.</p>
-    </td>
-    <td width="50%">
-      <img src="gifs/DeliveryInformation.gif" width="100%" alt="Delivery Information" />
-    </td>
-  </tr>
-</table>
+<img src="gifs/EmailAuthenticationOTP.gif" width="100%" alt="OTP Verification" />
+<br>
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="gifs/stripePaymentCheckout.gif" width="100%" alt="Stripe Checkout" />
-    </td>
-    <td width="50%">
-      <h3>5. Stripe Payment Gateway Checkout</h3>
-      <p>As soon as the user clicks on "Proceed to Checkout", the secure Stripe payment gateway opens. The user inputs their card details (using standard Stripe dummy credentials for testing) and completes the payment, successfully placing their food order.</p>
-    </td>
-  </tr>
-</table>
+### 3. Interactive Menu & Cart Management
+The core of GApple is its dynamic, interactive menu. Users can effortlessly browse through various food categories (like salads, desserts, etc.) and seamlessly add items to their cart. By clicking the plus and minus icons, they can adjust quantities on the fly with sub-second latency. Clicking the cart button reveals a complete, categorized list of selected items along with the calculated total order amount, powered by the React Context API for global state management.
 
-<table>
-  <tr>
-    <td width="50%">
-      <h3>6. Admin Dashboard & Order Tracking</h3>
-      <p>The application features a completely separate administrative portal. The admin logs in using their secure superuser credentials and is immediately greeted by the order list page, providing a bird's-eye view of all incoming orders.</p>
-    </td>
-    <td width="50%">
-      <img src="gifs/AdminDashboardLoginAndOrderList.gif" width="100%" alt="Admin Dashboard" />
-    </td>
-  </tr>
-</table>
+<img src="gifs/AddItemsToCart.gif" width="100%" alt="Adding items to cart" />
+<br>
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="gifs/AddingNewItemFromAdminDashboard.gif" width="100%" alt="Add New Item" />
-    </td>
-    <td width="50%">
-      <h3>7. Adding New Menu Items (Admin)</h3>
-      <p>The admin has full control over the restaurant's offerings. Here, the admin demonstrates adding a new "Tiramisu" dessert to the catalog. They fill out the product details, select a category, upload an image, and submit it to instantly update the database.</p>
-    </td>
-  </tr>
-</table>
+### 4. Delivery Information
+Once the user is satisfied with their cart, they proceed to provide their delivery information. The intuitive form captures essential details like the recipient's name, pincode, full delivery address, and mobile number. This ensures accurate order fulfillment and provides the restaurant with all necessary logistics data.
 
-<table>
-  <tr>
-    <td width="50%">
-      <h3>8. Real-time Catalog Updates</h3>
-      <p>Menu management works both ways. In this final step, the admin removes the newly created "Tiramisu" from the catalog. Switching back to the user portal and refreshing the page proves that the Tiramisu has instantly disappeared from the public menu.</p>
-    </td>
-    <td width="50%">
-      <img src="gifs/RemovingItemFromAdminDashboard.gif" width="100%" alt="Remove Item" />
-    </td>
-  </tr>
-</table>
+<img src="gifs/DeliveryInformation.gif" width="100%" alt="Delivery Information" />
+<br>
+
+### 5. Stripe Payment Gateway Checkout
+Checkout is robust and secure. As soon as the user clicks on "Proceed to Checkout", the secure Stripe payment gateway integration is triggered. The user inputs their card details (using standard Stripe dummy credentials for testing) and completes the payment. Upon success, the order is finalized and placed into the central database.
+
+<img src="gifs/stripePaymentCheckout.gif" width="100%" alt="Stripe Checkout" />
+<br>
+
+### 6. Admin Dashboard & Order Tracking
+The application features a completely separate, dedicated administrative React portal. The admin logs in using their secure superuser credentials and is immediately greeted by the order list dashboard. This provides a bird's-eye view of all incoming orders, allowing the restaurant staff to track, prepare, and manage deliveries efficiently.
+
+<img src="gifs/AdminDashboardLoginAndOrderList.gif" width="100%" alt="Admin Dashboard" />
+<br>
+
+### 7. Adding New Menu Items (Admin)
+The admin has full control over the restaurant's offerings through an intuitive CMS interface. Here, the admin demonstrates adding a new "Tiramisu" dessert to the catalog. They fill out the product details, select a category, and upload an image. The frontend handles the image upload via `multipart/form-data`, passing it securely to the Django REST Framework backend to update the database instantly.
+
+<img src="gifs/AddingNewItemFromAdminDashboard.gif" width="100%" alt="Add New Item" />
+<br>
+
+### 8. Real-time Catalog Updates
+Menu management works both ways, and updates are instantaneous. In this final step, the admin removes the newly created "Tiramisu" from the catalog. Switching back to the user portal and refreshing the page proves that the Tiramisu has instantly disappeared from the public menu, ensuring customers never order out-of-stock items.
+
+<img src="gifs/RemovingItemFromAdminDashboard.gif" width="100%" alt="Remove Item" />
+<br>
 
 ---
 
