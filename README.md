@@ -65,42 +65,71 @@ Menu management works both ways, and updates are instantaneous. In this final st
 
 ---
 
-## 💻 Local Setup Instructions
+## 💻 Local Development Setup
 
-### 1) Prerequisites
-Make sure you have Node.js and Python installed on your system. [Download Node.js here](https://nodejs.org/)
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18 or above)
+- [Python](https://www.python.org/downloads/) (v3.10 or above)
+- [Git](https://git-scm.com/)
 
-### 2) Run the Frontend
+### 1) Clone the Repository
 ```bash
-cd food-app
-npm install
-npm run dev
-```
-The frontend should now open at `http://localhost:5173`. 
-Create a `.env` file in the `food-app` directory and add:
-```env
-VITE_API_BASE_URL=http://localhost:8000/api/
+git clone https://github.com/VIDIT45AGARWAL/GApple.git
+cd GApple
 ```
 
-### 3) Run the Backend
+### 2) Backend (Django REST Framework)
 ```bash
-cd food-app/backend
+cd food-app/backend/foodapp
+
+# Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate        # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env to add your email credentials and Stripe key (optional for basic testing)
+
+# Run migrations and start the server
+python manage.py migrate
+python manage.py createsuperuser   # Create an admin account
 python manage.py runserver
 ```
 Your backend API should be running at `http://localhost:8000`.
 
-### 4) Run the Admin Panel
+> **Note:** By default, the backend uses **SQLite** and **local file storage** for development. No PostgreSQL or Cloudinary setup is needed to get started.
+
+### 3) Frontend (React + Vite)
+Open a new terminal:
 ```bash
-cd adminPanel/food-app-admin-panel
+cd food-app
+
+# Set up environment variables
+cp .env.example .env
+
+# Install dependencies and start the dev server
 npm install
 npm run dev
 ```
-The admin panel should now open at `http://localhost:5174`.
-Create a `.env` file in the `adminPanel/food-app-admin-panel` directory and add:
-```env
-VITE_API_BASE_URL=http://localhost:8000/api/
+The user portal should now be running at `http://localhost:5173`.
+
+### 4) Admin Panel (React + Vite)
+Open another new terminal:
+```bash
+cd adminPanel/food-app-admin-panel
+
+# Set up environment variables
+cp .env.example .env
+
+# Install dependencies and start the dev server
+npm install
+npm run dev
 ```
+The admin panel should now be running at `http://localhost:5174`.
 
 ---
 
