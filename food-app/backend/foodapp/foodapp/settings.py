@@ -88,15 +88,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'foodapp.urls'
 
-# CORS_ALLOWED_ORIGINS =[
-#     'http://localhost:5173',
-#     'http://localhost:5174',
-#     'https://g-apple.vercel.app',
-#     'https://gappleadminpanel.vercel.app',
-#     'https://gapple.onrender.com',
-# ]
-
-CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOWED_ORIGINS =[
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://g-apple.vercel.app',
+    'https://gappleadminpanel.vercel.app',
+    'https://gapple.onrender.com',
+]
 
 CORS_ALLOW_CREDENTIALS = True
 

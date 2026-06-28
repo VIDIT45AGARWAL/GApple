@@ -16,6 +16,7 @@ Make sure you have Node.js installed on your system. [Download Node.js here](htt
 ```bash
 cd food-app
 npm install
+npm install
 npm run dev
 ```
 
@@ -31,6 +32,7 @@ VITE_API_BASE_URL=http://localhost:8000/api/
 cd food-app
 cd backend
 pip install -r requirements.txt
+pip install -r requirements.txt
 python3 manage.py runserver
 ```
 
@@ -42,6 +44,7 @@ Your backend API should be running at http://localhost:8000
 cd adminPanel
 cd food-app-admin-panel
 npm install
+npm install
 npm run dev
 ```
 
@@ -52,4 +55,8 @@ VITE_API_BASE_URL=http://localhost:8000/api/
 ```
 
 ## 🎬 Demo Video
-[Demo Video](https://drive.google.com/file/d/1mSxXxW8Vrv2qjAw-7RjovLzQf0KR0dt8/view?usp=sharing)
+[Demo Video](https://drive.google.com/file/d/1Kr5FmL9IeUP-_HypgNcWbT_U43HzmxDN/view?usp=sharing)
+
+## Deployed Link
+User interface: [g-apple.vercel.app](https://g-apple.vercel.app)
+Admin interface: [gappleadminpanel.vercel.app/list](https://gappleadminpanel.vercel.app/list)
